@@ -1,0 +1,62 @@
+<Schema name="New Schema1">
+  <Dimension type="StandardDimension" visible="true" name="Dim_Project">
+    <Hierarchy name="Dim Project" visible="true" hasAll="true" primaryKey="project_id">
+      <Table name="Dim Project" schema="dbo" alias="">
+      </Table>
+      <Level name="name" visible="true" column="project_name" nameColumn="project_name" ordinalColumn="project_name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="state" visible="true" table="Dim Project" column="project_state" nameColumn="project_state" ordinalColumn="project_state" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" name="Dim_Category">
+    <Hierarchy name="Dim Category" visible="true" hasAll="true" primaryKey="category_id">
+      <Table name="Dim Category" schema="dbo" alias="">
+      </Table>
+      <Level name="analytics_name" visible="true" column="category_analytics_name" nameColumn="category_analytics_name" ordinalColumn="category_analytics_name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" name="Dim_Location">
+    <Hierarchy name="Dim Location" visible="true" hasAll="true" primaryKey="location_id">
+      <Table name="Dim Location" schema="dbo" alias="">
+      </Table>
+      <Level name="location_name" visible="true" column="location_name" nameColumn="location_name" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="location_country" visible="true" column="location_country" nameColumn="location_country" ordinalColumn="location_country" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" name="Dim_Date">
+    <Hierarchy name="Dim Date" visible="true" hasAll="true" primaryKey="date_id">
+      <Table name="Dim Date" schema="dbo" alias="">
+      </Table>
+      <Level name="created_at" visible="true" column="created_at" nameColumn="created_at" ordinalColumn="created_at" type="Date" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="launched_at" visible="true" column="launched_at" nameColumn="launched_at" ordinalColumn="launched_at" type="Date" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="deadline" visible="true" column="deadline" nameColumn="deadline" type="Date" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="state_changed_at" visible="true" column="state_changed_at" nameColumn="state_changed_at" ordinalColumn="state_changed_at" type="Date" uniqueMembers="false" levelType="Regular">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="CampaignDW" visible="true" cache="true" enabled="true">
+    <Table name="fact_table" schema="dbo" alias="">
+    </Table>
+    <DimensionUsage source="Dim_Date" name="Date" visible="true" foreignKey="date_id">
+    </DimensionUsage>
+    <DimensionUsage source="Dim_Category" name="Category" visible="true" foreignKey="category_id">
+    </DimensionUsage>
+    <DimensionUsage source="Dim_Location" name="Location" visible="true" foreignKey="location_id">
+    </DimensionUsage>
+    <DimensionUsage source="Dim_Project" name="Project" visible="true" foreignKey="project_id">
+    </DimensionUsage>
+    <Measure name="Backers Count" column="backers_count" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Amount Pledged" column="amount_pledged" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Goal" column="goal" aggregator="sum" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
